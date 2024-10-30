@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>GAME</title>
+        </head>
+    <body>
+        <style>
+
+        </style>
+        <div class="bg-first" src="">
+            
+        </div>
+        <script>
+            class wayang {
+                constructor(name, health) {
+                this._name = name;
+                this._health = health;
+                }
+
+                get name() {
+                return this._name;
+                }
+
+                set name(value) {
+                this._name = value;
+                }
+
+                get health() {
+                return this._health;
+                }
+
+                set health(value) {
+                if (value < 0) value = 0; 
+                this._health = value;
+                }
+
+                attack(target, bertahan) {
+                if (bertahan) {
+                    console.log(
+                    `${this.name} menyerang ${target.name}, tetapi ${target.name} bertahan!`
+                    );
+                } else {
+                    console.log(`${this.name} menyerang ${target.name}!`);
+                }
+                }
+
+                defend(damage) {
+                this.health -= damage;
+                console.log(
+                    `${this.name} menerima ${damage} damage. Nyawa tersisa: ${this.health}`
+                );
+                }
+
+                hidup() {
+                return this.health > 0;
+                }
+            }
+
+            class Nakula extends wayang {
+                constructor() {
+                super("Nakula", 100);
+                }
+
+                attack(target, bertahan) {
+                super.attack(target, bertahan);
+                const damage = 20;
+                target.defend(bertahan ? damage / 1.75 : damage);
+                }
+            }
+
+            class Sadewa extends wayang {
+                constructor() {
+                super("Sadewa", 100);
+                }
+
+                attack(target, bertahan) {
+                super.attack(target, bertahan);  
+                const damage = 25;
+                target.defend(bertahan ? damage / 2 : damage);
+                }
+            }
+
+            class Arjuna extends wayang {
+                constructor() {
+                super("Arjuna", 100);
+                }
+
+                attack(target, bertahan) {
+                super.attack(target, bertahan);
+                const damage = 15;
+                target.defend(bertahan ? damage / 1.5 : damage);
+                }
+            }
+
+            class Yudistira extends wayang {
+                constructor() {
+                super("Yudistira", 100);
+                }
+
+                attack(target, bertahan) {
+                super.attack(target, bertahan);
+                const damage = 30;
+                target.defend(bertahan ? damage / 2.5 : damage);
+                }
+            }
+
+            class Bima extends wayang {
+                constructor() {
+                super("Bima", 100);
+                }
+
+                attack(target, bertahan) {
+                super.attack(target, bertahan);
+                const damage = 35;
+                target.defend(bertahan ? damage / 3 : damage);
+                }
+            }
+
+            class Game {
+                constructor() {
+                    this.karakter = [
+                        new Nakula(),
+                        new Sadewa(),
+                        new Arjuna(),
+                        new Yudistira(),
+                        new Bima(),
+                    ];
+                    this.player1 = null;
+                    this.player2 = null;
+                }
+
+                pilihKarakter(player) {
+                    console.log(`Pilih karakter untuk ${player}:`);
+                    this.karakter.forEach((char, index) =>
+                        console.log(`${index + 1}. ${char.name}`)
+                    );
+                    const pilihan = prompt(`Masukkan nomor karakter untuk ${player}: `) - 1;
+                    return this.karakter[pilihan];
+                }
+
+                pilihPlayer(player) {
+                    let aksi = prompt(
+                        `Apa yang ingin kamu lakukan? (serang/bertahan): `
+                    ).toLowerCase();
+                    while (aksi !== "serang" && aksi !== "bertahan") {
+                        aksi = prompt(
+                            `Pilihan tidak valid. Silakan pilih 'serang' atau 'bertahan': `
+                        ).toLowerCase();
+                    }
+                    return aksi;
+                }
+
+                mulaiRound() {
+                    console.log(`\n=== Ronde Baru ===`);
+                    const player1aksi = this.pilihPlayer(this.player1.name);
+                    const player2aksi = this.pilihPlayer(this.player2.name);
+
+                    if (player1aksi === "serang") {
+                        this.player1.attack(this.player2, player2aksi === "bertahan");
+                    } else {
+                        console.log(`${this.player1.name} memilih untuk bertahan.`);
+                        console.log(`${this.player1.name} memiliki ${this.player1.health} nyawa tersisa.`);
+                    }
+
+                    if (!this.player2.hidup()) return;
+
+                    if (player2aksi === "serang") {
+                        this.player2.attack(this.player1, player1aksi === "bertahan");
+                    } else {
+                        console.log(`${this.player2.name} memilih untuk bertahan.`);
+                        console.log(`${this.player2.name} memiliki ${this.player2.health} nyawa tersisa.`);
+                    }
+                    
+                }
+
+                mulaiGame() {
+                    console.log("=== Selamat Datang di Game Karakter ===");
+                    this.player1 = this.pilihKarakter("Player 1");
+                    this.player2 = this.pilihKarakter("Player 2");
+
+                    while (this.player1.hidup() && this.player2.hidup()) {
+                        this.mulaiRound();
+                    }
+
+                    if (this.player1.hidup()) {
+                        console.log("Player 1 menang!");
+                    } else {
+                        console.log("Player 2 menang!");
+                    }
+                }
+            }
+
+            const game = new Game();
+            game.mulaiGame();
+        </script>
+    </body>
+</html>

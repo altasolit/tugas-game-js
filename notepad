@@ -1,0 +1,8 @@
+Game Wayang V1
+Game ini dimainkan oleh 2 player. Tidak tersedia pilihan level.
+Ketentuan:
+1.	Buatlah 5 Karakter Wayang dengan nama (Yudistira, Bima, Arjuna, Duryodana dan Dursasana), kekuatan masing-masing 100, dan keahlian(tendang, pukul, dll) yang berbeda.
+2.	Setiap Karakter memiliki mode menyerang dengan keahliannya dan mode bertahan.
+3.	Para Player diminta untuk memilih karakternya untuk bermain.
+4.	Permainan dilakukan per ronde untuk masing-masing 1 aksi setiap karakter dan bergantian. Ronde ini berulang sampai ada karakter yang kekuatannya 0.
+5.	Player yang kekuatannya mencapai 0 terlebih dahulu, maka dia yang kalah.
